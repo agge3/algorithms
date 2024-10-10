@@ -1,3 +1,6 @@
+#include <string>
+#include <vector>
+
 using namespace std;
 
 bool isPalindrome(string s)
@@ -111,4 +114,116 @@ int mst(vector<vector<int>> adj, int n)
 	  	}
 	}
 	return cost;
+}
+
+int dfs(const vector<vector<int>>& adj, int root)
+{
+	/*
+	 * Adjacency matrix:
+	 * {
+	 * 	{ 1, 0, 0, 0, 0 },
+	 * 	{ 0, 1, 0, 0, 0 },
+	 * 	...
+	 * }
+	 */
+	vector<bool> visited(adj.size(), false);
+	stack<int> stack;
+	stack.push(root);
+	visited[root] = true;
+	while (!stack.empty()) {
+		int v = stack.top();
+		stack.pop();
+		for (int i = 0; i < adj.size(); ++i) {
+			if (adj[v][i] && !visited[i]) {
+	   			stack.push(i);
+				visited[i] = true;
+			}
+		}
+	}
+	return -1;
+}
+
+int bfs(const vector<vector<int>>& adj, int root)
+{
+	vector<bool> visited(adj.size(), false);
+	deque<int> queue;
+	vector<int> path(adj.size(), -1);
+	queue.push_front(root);
+	visited[root] = true;
+	while (!queue.empty()) {
+		int v = queue.back();
+		queue.pop_back();
+		for (int u : adj[v]) {
+			if (!visited[u]) {
+	   			visited[u] = true;
+	   			queue.push_front(u);
+				path[u] = v;	// xxx might have to reverse
+			}
+		}
+	}
+	return -1;
+}
+
+// Dijkstra's algorithm.
+int shortestPath(const vector<vector<int>>& adj, int root)
+{
+	const int INF = 0x7fffffff
+	vector<bool> visited(adj.size(), false);
+	vector<int> dest(adj.size(), INF);
+	vector<int> path(adj.size(), -1);
+	
+	dest[root] = 0;
+	for (int i = 0; i < adj.size(); ++i) {
+		int v = -1;
+		for (int j = 0; j < adj.size(); ++j) {
+	  		if (!visited[j] && (v == -1 || dest[j] < dest[v])) {
+	  			v = j;
+	  		}
+		}
+
+		if (dest[v] == INF) {
+	  		// If the remaining edges are infinite, we've found the shortest 
+	  		// path.
+	  		break;
+		}
+
+		visited[v] = true;
+		for (const auto& e : adj[v]) {
+			// xxx pair
+	  		int to = e.first;
+	  		int len = e.second;
+			
+	  		if (dest[v] + len < dest[t]) {
+	  			dest[to] = d[v] + len;
+	  			path[to] = v;
+	  		}
+		}
+	}
+	return -1;
+	// xxx review algorithm
+}
+
+// https://stackoverflow.com/questions/52131718/rotate-mn-matrix-90-degrees-clockwise-c
+vector<vector<char>> rotateMatrixClockwise(const vector<vector<char>>& mat) {
+	const int M = mat[0].size();
+	const int N = mat.size();
+
+	vector<vector<char>> myMat(M);	// MxN -> NxM
+	for (auto i = 0; i < M; ++i) {
+		myMat[i].resize(N);
+	}
+
+	// Algorithm to rotate clockwise.
+	for (auto i = 0; i < N; ++i) {
+		for (auto j = 0; y < M; ++j) {
+	  		myMat[j][N - i - 1] = mat[i][j];
+	  	}
+	}
+
+	return myMat;
+}
+
+int main()
+{
+	return -1;
 }
