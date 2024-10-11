@@ -3,6 +3,16 @@
 
 using namespace std;
 
+/**
+ * Data structure and algorithm efficiencies:
+ * 	Priority queue (heapsort): O(n log n)
+ * 		* NOT intended to be traversed
+ * 		* NOT intended to be searched
+ * 		* NOT intended to randomly delete items
+ * 		* To perform any of the above actions, choose a different sorting 
+ * 		  algorithm.
+ */
+
 bool isPalindrome(string s)
 {
 	string r = s;
@@ -201,6 +211,37 @@ int shortestPath(const vector<vector<int>>& adj, int root)
 	}
 	return -1;
 	// xxx review algorithm
+}
+
+// Recursive depth-first search.
+void dfs(const vector<vector<int>>& adj, vector<int>& path, int root)
+{
+	vector<bool> visited(adj.size(), false);
+	visited[root] = true;
+	for (int u : adj[root]) {
+		if (!visited[u]) {
+	  		dfs(u);
+
+		}
+	}
+	path.push_back(root);
+}
+
+/**
+* @pre Directed acylic graph (DAG), meaning the graph must be directed and there
+* must be no cycles.
+*/
+vector<int> topologicalSort(const vector<vector<int>>& adj)
+{	
+	vector<bool> visited(adj.size(), false);
+	vector<int> path;
+	for (int i = 0; i < adj.size(); ++i) {
+		if (!visited[i]) {
+	  		dfs(i);
+		}
+	}
+	reverse(path.begin(), path.end());
+	return path;
 }
 
 // https://stackoverflow.com/questions/52131718/rotate-mn-matrix-90-degrees-clockwise-c
