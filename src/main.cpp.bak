@@ -1,5 +1,7 @@
+#include <stdexcept>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -262,6 +264,172 @@ vector<vector<char>> rotateMatrixClockwise(const vector<vector<char>>& mat) {
 	}
 
 	return myMat;
+}
+
+bool selectionSort(vector<int>& v)
+{
+	if (v.size() < 1) {
+		return false;
+	}
+
+	for (auto i = v.size() - 1; i > 0; --i) {
+		size_t largest = i;
+		// Don't loop what we've already sorted; all sorted is at end.
+		for (auto j = 1; j < i + 1; ++j) {
+	  		if (v.at(j) > v.at(largest)) {
+	  			largest = j;
+	  		}
+		}
+		swap(v.at(largest), v.at(i));
+	}
+
+	return true;
+}
+
+bool bubbleSort(vector<int>& v)
+{
+	if (v.size() < 1) {
+	   return false;
+	}
+
+	bool sorted = false;
+	size_t pass = 1;
+	while (!sorted && (pass < v.size())) {
+		sorted = true; // Assume sorted.
+		for (auto i = 0; i < v.size() - pass; ++i) {
+			auto next = i + 1;
+			if (v.at(i) > v.at(next)) {
+	   			swap(v.at(i), v.at(next));
+	   			sorted = false; // Not finished sorting, flag another pass.
+			}
+		}
+		++pass;
+	}
+
+	return true;
+}
+
+bool insertionSort(vector<int>& v)
+{
+	if (v.size() < 1) {
+		return false;
+	}
+
+
+}
+
+/**
+ * Sorts the vector using merge sort.
+ * Advantages: O(n log n).
+ * Disadvantages: Requires temporary data structure allocation.
+ *
+ * @param v The vector to sort.
+ * @param first The starting index of the vector.
+ * @param last The ending index of the vector.
+ */
+bool mergeSort(vector<int>& v, int first, int last)
+{
+	if (first < last) {	// Base-case.
+		int mid = (first + last) / 2;
+
+		// Sort: [first, ..., mid].
+		mergeSort(v, first, mid);
+		// Sort: [mid + 1, ..., last].
+		mergeSort(v, mid + 1, last);
+
+		// Merge the sorted halves.
+		merge(v, first, mid, last);
+
+		return true;
+	}
+	return false;
+}
+
+/**
+ * Merges two sorted halves of the vector.
+ *
+ * @param v The vector to merge.
+ * @param first The starting index of the first half.
+ * @param mid The ending index of the first half.
+ * @param last The ending index of the second half.
+ */
+void merge(vector<int>& v, int first, int mid, int last)
+{
+	vector<int> tmp(last - first + 1);
+
+	int first1 = first;
+	int last1 = mid;
+	int first2 = mid + 1;
+	int last2 = last;
+
+	int idx = first1;
+	while ((first1 <= last1) && (first2 <= last2)) {
+		if (v.at(first1) <= v.at(first2)) {
+			tmp.at(idx) = v.at(first1);
+			++first1;
+		} else {
+			tmp.at(idx) = v.at(first2);
+			++first2;
+		}
+		++idx;
+	}
+
+	// Finish off the first subarray, if necessary.
+	while (first1 <= last1) {
+		tmp.at(idx) = v.at(first1);
+		++first1;
+		++idx;
+	}
+
+	// Finish off the second subarray, if necessary.
+	while (first2 <= last2) {
+		tmp.at(idx) = v.at(first2);
+		++first2;
+		++idx;
+	}
+
+	// Copy the result back into the original array.
+	for (auto i = first; i <= last; ++i) {
+		v.at(i) = tmp.at(i);
+	}
+}
+
+/**
+* @note partition() should be called with four of more elements. quickSort() 
+* must deal with this and choose another sorting algorithm for less than four
+* elements (eventually a base-case will arrive where there are less than four
+* elements). insertionSort() is a good choice of the basic sorting algorithms,
+* due to its efficiency on small data structures.
+*
+* Advantages: O(n log n) best case, with no temporary data structure allocation
+* (vs. `mergeSort()`).
+* Disadvantages: O(n^2) worst case.
+*/
+void quickSort()
+{
+}
+
+/**
+* Advantages: O(n)
+* Disadvantages: Not generally applicable due to the "radix" (doesn't perform
+* comparisons; instead groups) mechanisms of the sort.
+*/
+void radixSort()
+{
+}
+
+void swap(int& t1, int& t2) noexcept
+{
+	tmp = move(a);
+	a = move(b);
+	b = move(tmp);
+}
+
+void swap(int& t1, int& t2)
+{
+	tmp = t1;
+	t1 = t2;
+	t2 = tmp;
 }
 
 int main()
