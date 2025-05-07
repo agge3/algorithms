@@ -22,9 +22,25 @@ namespace algo {
 
 	bool STLisPalindrome(const std::string& s);
 
+	bool isPrime(int n);
+
 	int countPrimes(int n);
 
+	void swapInt(int a, int b);
+
 	int primMst(const std::vector<std::vector<int>>& adj);
+
+	std::vector<std::string> splitStringLoop(const std::string& str);
+
+	std::vector<std::string> splitStringStream(const std::string& str);
+
+	void swapMatrixRow(std::vector<std::vector<int>>& mat, int r1, int r2);
+
+	void swapMatrixColumn(std::vector<std::vector<int>>& mat, int c1, int c2);
+
+	void reverseMatrixRow(std::vector<std::vector<int>>& mat, int row);
+
+	void reverseMatrixColumn(std::vector<std::vector<int>>& mat, int col);
 
 	//int kruskalMst(const std::vector<std::vector<int>>& adj, int n);
 

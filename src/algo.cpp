@@ -21,6 +21,7 @@
 #include <deque>
 #include <utility>
 #include <iostream>
+#include <sstream>
 
 using namespace algo;
 
@@ -402,6 +403,87 @@ bool algo::selectionSort(vector<int>& v)
 	return true;
 }
 
+vector<string> algo::splitStringLoop(const string& str)
+{
+	vector<string> split;
+	string s;
+	for (const auto& c : str) {
+		if (isspace(c)) {
+	  		split.push_back(s);
+	  		s = "";
+		} else {
+	  		s += c;
+		}
+	}
+	// Need to push back the last string because `isspace()` won't get called on 
+	// it.
+	split.push_back(s);
+	return split;
+}
+
+vector<string> algo::splitStringStream(const string& str)
+{
+	vector<string> split;
+	stringstream stream(str);
+	string s;
+	while (stream >> s) {
+		split.push_back(s);
+	}
+	return split;
+}
+
+void algo::swapMatrixRow(vector<vector<int>>& mat, int r1, int r2)
+{
+	const int M = mat[0].size();
+	vector<int> tmp(M);
+	for (auto i = 0; i < M; ++i) {
+		tmp.at(i) = mat[r1][i];
+	}
+	for (auto i = 0; i < M; ++i) {
+		mat[r1][i] = mat[r2][i];
+	}
+	mat[r2] = tmp;
+}
+
+void algo::swapMatrixColumn(vector<vector<int>>& mat, int c1, int c2)
+{
+	const int N = mat.size();
+	vector<int> tmp(N);
+	for (auto i = 0; i < N; ++i) {
+		tmp.at(i) = mat[i][c1];
+	}
+	for (auto i = 0; i < N; ++i) {
+		mat[i][c1] = mat[i][c2];
+	}
+	for (auto i = 0; i < N; ++i) {
+		mat[i][c2] = tmp.at(i);
+	}
+}
+
+void algo::reverseMatrixRow(vector<vector<int>>& mat, int row)
+{
+	const int M = mat[0].size();
+	vector<int> tmp(M);
+	for (auto i = 0; i < M; ++i) {
+		tmp.at(i) = mat[row][i];
+	}
+	reverse(tmp.begin(), tmp.end());
+	mat[row] = tmp;
+}
+
+void algo::reverseMatrixColumn(vector<vector<int>>& mat, int col)
+{
+	const int N = mat.size();
+	vector<int> tmp(N);
+	for (auto i = 0; i < N; ++i) {
+		tmp.at(i) = mat[i][col];
+	}
+	reverse(tmp.begin(), tmp.end());
+	for (auto i = 0; i < N; ++i) {
+		mat[i][col] = tmp.at(i);
+	}
+}
+
 bool algo::bubbleSort(vector<int>& v)
 {
 	if (v.size() < 1) {
@@ -500,6 +582,32 @@ void algo::merge(vector<int>& v, int size, int first, int mid, int last)
 	for (auto i = first; i <= last; ++i) {
 		v.at(i) = tmp.at(i);
 	}
+}
+
+bool algo::isPrime(int n) {
+	if (n <= 1) {
+		return false;
+	}
+	if (n == 2 || n == 3) {
+		return true;
+	}
+	// Every prime number is 6k + 1 or 6k - 1, except 2 and 3.
+	if ((n - 1) % 6 != 0 && (n + 1) % 6 != 0) {
+		return false;
+	}
+	for (long long i = 5; i * i <= n; i += 6) {	// int can overflow
+		if (n % i == 0 || n % (i + 2) == 0) {
+			return false;
+		}
+	}
+	return true;
+}
+
+void algo::swapInt(int a, int b)
+{
+	b += a;	// b = b + a
+	a = b - a;	// (b + a) - a = b
+	b = b - a;	// (b + a) - b = a
 }
 
 // EOF

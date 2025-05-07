@@ -256,6 +256,92 @@ TEST(AlgoTests, MergeSort)
     EXPECT_EQ(v3, std::vector<int>({})); // Should remain empty
 }
 
+TEST(AlgoTests, splitStringLoop)
+{
+	std::string s = "A string that needs to be split";
+	std::vector<std::string> split = algo::splitStringLoop(s);
+	EXPECT_EQ(split, std::vector<std::string>(
+		   { "A", "string", "that", "needs", "to", "be", "split" }
+	));
+
+	s = "dontsplit";
+	split = algo::splitStringLoop(s);
+	EXPECT_EQ(split, std::vector<std::string>({ "dontsplit" }));
+
+	s = "newline\ntab\twhite space";
+	split = algo::splitStringLoop(s);
+	EXPECT_EQ(split, std::vector<std::string>(
+		{ "newline", "tab", "white", "space" }
+	));
+}
+
+TEST(AlgoTests, splitStringStream)
+{
+	std::string s = "A string that needs to be split";
+	std::vector<std::string> split = algo::splitStringStream(s);
+	EXPECT_EQ(split, std::vector<std::string>(
+		   { "A", "string", "that", "needs", "to", "be", "split" }
+	));
+
+	s = "dontsplit";
+	split = algo::splitStringStream(s);
+	EXPECT_EQ(split, std::vector<std::string>({ "dontsplit" }));
+
+	s = "newline\ntab\twhite space";
+	split = algo::splitStringStream(s);
+	EXPECT_EQ(split, std::vector<std::string>(
+		{ "newline", "tab", "white", "space"}
+	));
+}
+
+TEST(MatrixTests, SwapMatrixRow) {
+    std::vector<std::vector<int>> mat = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+	algo::swapMatrixRow(mat, 0, 1);
+    EXPECT_EQ(mat[0], std::vector<int>({4, 5, 6}));
+    EXPECT_EQ(mat[1], std::vector<int>({1, 2, 3}));
+}
+
+TEST(MatrixTests, SwapMatrixColumn) {
+    std::vector<std::vector<int>> mat = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+	algo::swapMatrixColumn(mat, 0, 2);
+    EXPECT_EQ(mat[0], std::vector<int>({3, 2, 1}));
+    EXPECT_EQ(mat[1], std::vector<int>({6, 5, 4}));
+}
+
+TEST(MatrixTests, ReverseMatrixRow) {
+    std::vector<std::vector<int>> mat = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+	algo::reverseMatrixRow(mat, 1);
+    EXPECT_EQ(mat[1], std::vector<int>({6, 5, 4}));
+}
+
+TEST(MatrixTests, ReverseMatrixColumn) {
+    std::vector<std::vector<int>> mat = {
+        {1, 2, 3},
+        {4, 5, 6},
+        {7, 8, 9}
+    };
+
+	algo::reverseMatrixColumn(mat, 1);
+    EXPECT_EQ(mat[0][1], 8);
+    EXPECT_EQ(mat[1][1], 5);
+    EXPECT_EQ(mat[2][1], 2);
+}
+
 // Main function for running tests
 int main(int argc, char **argv)
 {
